@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthCheck;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', [AuthCheck::class,'index']);
 Route::get('/login', [AuthCheck::class,'index']);
@@ -20,6 +21,10 @@ Route::post('/post/save', [PostController::class, 'save']);
 Route::get('/edit/{id}', [PostController::class,'edit']);
 Route::put('/post/update/{id}', [PostController::class, 'update'])->name('post.update');
 Route::post('/comment/add/{id}', [CommentController::class, 'add'])->name('comment.add');
+Route::put('/comment/edit/{comment}', [CommentController::class, 'edit'])->name('comment.edit');
+
+Route::get('/profile/{id}', [UserController::class,'profile']);
+
 
 });
 

@@ -52,18 +52,63 @@
                                 <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
                             </a> 
                             <label>Comments</label>
+                            <div id="commentSection">
+                            </div>
+                            <form id="commentForm" method="POST" action="{{ url('comment/add', $getPostRecord->id) }}">
+                                @csrf
+                                <input  style="border:1px solid red" type="text" name="content" />
+                                <button  type="submit">Comment</button>
+                            </form>
+                            <div id="Comments">
                             @foreach ( $getCommentsRecord as $postcomment )
                             <div>
                                 <p>{{$postcomment->content}}</p>
                                 <p>{{$postcomment->created_at}}</p>
                                 <p>{{$postcomment->user_name}}</p>
+                                @if ($postcomment->user_id == Auth::id() || Auth::user()->roles()->where('name', 'Admin')->exists())
+                                        <button onclick="showEditForm({{ $postcomment->id }})">Edit</button>
+                                        <form id="editForm_{{ $postcomment->id }}" action="{{ route('comment.edit', $postcomment->id) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="text" name="content" value="{{ $postcomment->content }}">
+                                            <button type="submit">Save</button>
+                                        </form>
+                                @endif
+                            </div>
+                            <script>
+                                function showEditForm(commentId) {
+                                    var formId = 'editForm_' + commentId;
+                                    document.getElementById(formId).style.display = 'block';
+                                }
+                            </script>
                             </div>                         
                             @endforeach
-                            <form method="POST" action="{{ url('comment/add', $getPostRecord->id) }}">
-                                @csrf
-                                <input  style="border:1px solid red" type="text" name="content" />
-                                <button  type="submit">Comment</button>
-                            </form>
+                            <div>
+                            
+                           
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#commentForm').on('submit', function(e) {
+                                        e.preventDefault(); 
+                                        var formData = $(this).serialize(); 
+                                        $.ajax({
+                                            url: $(this).attr('action'),
+                                            method: $(this).attr('method'),
+                                            data: formData,
+                                            success: function(response) {
+                                                $('#Comments').html('');
+                                                $('#commentSection').html(response.commentSection);
+                                                alert('Comment added successfully.');
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error(xhr.responseText);
+                                                alert('Failed to add comment. Please try again.');
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
                         </div>
                     </main>
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">

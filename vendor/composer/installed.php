@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'v11.0.6',
-        'version' => '11.0.6.0',
-        'reference' => '3cb22426e1d78c69b7b6630b88a02d9934cac29d',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '229a875dd06274bfc7072c0b0fd0e31d65486490',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -380,9 +380,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'v11.0.6',
-            'version' => '11.0.6.0',
-            'reference' => '3cb22426e1d78c69b7b6630b88a02d9934cac29d',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '229a875dd06274bfc7072c0b0fd0e31d65486490',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -583,6 +583,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.9.1',
+            'version' => '6.9.1.0',
+            'reference' => '039de174cd9c17a8389754d3b877a2ed22743e18',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.2',
             'version' => '1.9.2.0',
@@ -748,8 +757,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(

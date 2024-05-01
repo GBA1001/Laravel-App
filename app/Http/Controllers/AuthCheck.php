@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\user;
 use App\Models\Roles;
 
-class AuthCheck
+class AuthCheck 
 {
+   
     public function index()
     {
         if (!Auth::check()) {
@@ -23,6 +23,10 @@ class AuthCheck
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $request->session()->put('user', [
+                'id' => $user->id,
+                'name' => $user->name,
+            ]);
             return redirect()->route('post.list');
         } else {
             return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

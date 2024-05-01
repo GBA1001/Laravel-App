@@ -26,5 +26,10 @@ class Comment extends Model
         return $this->belongsToMany(User::class, 'user_id');
     }
 
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
    
 }

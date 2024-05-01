@@ -17,6 +17,8 @@ class PostController
     }
     public function detail ($id) {
         $post = new Post();
+        $post = Post::findOrFail($id);
+        $post->increment('view_count');
         $data['getPostRecord'] = $post->getPostRecord($id)->first(); 
         $comments = new Comment();
         $commentsData['getCommentsRecord'] = $comments->getCommentsRecord($id);

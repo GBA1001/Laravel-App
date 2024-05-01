@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('post_id')->references('id')->on('post')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->default(1)->references('id')->on('user')->onDelete('cascade')->onUpdate('cascade');
             $table->string("content");
+            $table->unsignedBigInteger('commentable_id');
+            $table->string('commentable_type');
             $table->timestamps();
         });
        

@@ -22,6 +22,7 @@ Route::get('/edit/{id}', [PostController::class,'edit']);
 Route::put('/post/update/{id}', [PostController::class, 'update'])->name('post.update');
 Route::post('/comment/add/{id}', [CommentController::class, 'add'])->name('comment.add');
 Route::put('/comment/edit/{comment}', [CommentController::class, 'edit'])->name('comment.edit');
+Route::post('/comment/{comment}/{postId}/reply', [CommentController::class, 'reply'])->name('comment.reply');
 
 Route::get('/profile/{id}', [UserController::class,'profile']);
 

@@ -20,12 +20,14 @@ class CommentController
         $this->emailService = $emailService;
     }
 
-    public function add(Request $request, $postId)
+    public function add(Request $request, $postId, $commentable_id, $commentable_type)
     {
         $comment = new Comment();
         $comment->post_id = $postId;
         $comment->user_id = Auth::id(); 
         $comment->content = $request->input('content');
+        $comment->commentable_id = $commentable_id;
+        $comment->commentable_type = $commentable_type;
         $comment->save();
         $comments = Comment::where('post_id', $postId)->get();
         $commentSection = '<div id="commentSection">';
@@ -55,5 +57,26 @@ class CommentController
 
         return redirect()->back()->with('success', 'Comment updated successfully.');
     }
-    //
+
+    public function reply(Request $request, $parentCommentId,$postId)
+    {
+        $data = $request->validate([
+            'content' => 'required|string',
+        ]);
+    
+        // Find the parent comment
+        $parentComment = Comment::findOrFail($parentCommentId);
+    
+        // Create the reply
+        $reply = new Comment();
+        $reply->content = $data['content'];
+        $reply->user_id = auth()->id();
+        $reply->commentable_id = $parentComment->id;
+        $reply->commentable_type = 'Comment';
+        $reply->post_id = $postId;
+        $reply->save();
+    
+        return redirect()->back()->with('success', 'Reply added successfully.');
+    }
+    
 }

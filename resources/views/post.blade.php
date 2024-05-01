@@ -54,7 +54,7 @@
                             <label>Comments</label>
                             <div id="commentSection">
                             </div>
-                            <form id="commentForm" method="POST" action="{{ url('comment/add', $getPostRecord->id) }}">
+                            <form id="commentForm" method="POST" action="{{ url('comment/add', $getPostRecord->id , ['commentable_id' => $getPostRecord->id, 'commentable_type' => 'Post']) }}">
                                 @csrf
                                 <input  style="border:1px solid red" type="text" name="content" />
                                 <button  type="submit">Comment</button>
@@ -74,6 +74,19 @@
                                             <button type="submit">Save</button>
                                         </form>
                                 @endif
+
+                                <form method="POST" action="{{ route('comment.reply',  ['comment' => $postcomment->id, 'postId' => $getPostRecord->id]) }}">
+                                @csrf
+                                <div>
+                                    <textarea name="content" placeholder="Reply to this comment"></textarea>
+                                </div>
+                                <div>
+                                    <button type="submit">Reply</button>
+                                </div>
+                            </form>
+
+                           
+
                             </div>
                             <script>
                                 function showEditForm(commentId) {
@@ -84,6 +97,7 @@
                             </div>                         
                             @endforeach
                             <div>
+                            
                             
                            
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -168,7 +168,7 @@
                                 <div class="border p-3 mb-3 bg-white text-black">
                                     <p class="mb-1">{{$postcomment->content}}</p>
                                     <p class="mb-1 text-muted">{{$postcomment->created_at}}</p>
-                                    <p class="mb-0">{{$postcomment->user_name}}</p>
+                                    <a href="{{ route('profile', ['id' => $postcomment->user_id]) }}"><p class="mb-0">{{ $postcomment->user_name }}</p></a>
                                     <form method="POST" action="{{ route('comment.reply', ['comment' => $postcomment->id, 'postId' => $getPostRecord->id]) }}" class="mt-2">
                                     @csrf
                                     <div class="input-group">
@@ -193,13 +193,13 @@
                                     @if ($postcomment->commentable_type == 'Comment' && $postcomment->commentable_id)
                                         <!-- Fetch and display child comments using the commentable_id -->
                                         @foreach ($getCommentsRecord as $childComment)
-                                            @if ($childComment->commentable_type == 'Comment' && $childComment->commentable_id == $postcomment->id)
+                                            @if ($childComment->commentable_type == 'Comment'  )
                                                 <div class="border p-3 mt-3 bg-light">
                                                     <p class="fw-bold mb-1 text-danger">Replies:</p>
                                                     <div class="border p-3 mb-3 bg-light">
                                                         <p class="mb-1">{{$childComment->content}}</p>
                                                         <p class="mb-1 text-muted">{{$childComment->created_at}}</p>
-                                                        <p class="mb-0">{{$childComment->user_name}}</p>
+                                                        <a href="{{ route('profile', ['id' => $childComment->user_id]) }}"><p class="mb-0">{{ $childComment->user_name }}</p></a>
                                                     </div>
                                                     <form method="POST" action="{{ route('comment.reply', ['comment' => $postcomment->id, 'postId' => $getPostRecord->id]) }}" class="mt-2">
                                                         @csrf

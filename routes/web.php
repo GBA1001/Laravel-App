@@ -32,7 +32,7 @@ Route::post('/comment/add/{id}/{commentableType}/{commentableId}', [CommentContr
 Route::put('/comment/edit/{comment}', [CommentController::class, 'edit'])->name('comment.edit');
 Route::post('/comment/{comment}/{postId}/reply', [CommentController::class, 'reply'])->name('comment.reply');
 
-Route::get('/profile/{id}', [UserController::class,'profile']);
+Route::get('/profile/{id}', [UserController::class,'profile'])->name('profile');
 
 
 });

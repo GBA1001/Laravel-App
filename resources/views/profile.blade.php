@@ -1,62 +1,117 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Post It</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: Figtree, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: black;
+            color: #1f2937;
+        }
 
-        <title>Post It</title>
+        .container {
+            max-width: 1140px;
+            margin-top: 50px;
+        }
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        .card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
 
-        <!-- Styles -->
-       
-    </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-            <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" />
-            <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
-                
-                <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                    <main class="mt-6">
-                        <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
-                            @foreach ( $getPostsRecord as $post )
-                           
-                            <a
-                                href="{{ url('post',$post->id) }}" 
-                                class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                            >
-                                <div style="width:50%;">
-                                  <img src="{{ asset('images/' . $post->image) }}" alt="Post Image">
-                                </div>
-                                <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">{{$post->title}}</h2>
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-                                    <p class="mt-4 text-sm/relaxed">
-                                        {{$post->description}}
-                                    </p>
-                                </div>
+        .card img {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            object-fit: cover;
+            height: 200px;
+        }
 
-                                <svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
-                            </a> 
-                            @endforeach
-                        </div>
-                        <div id="Comments">
-                            @foreach ( $getCommentsRecord as $postcomment )
-                            <div>
-                                <p>{{$postcomment->content}}</p>
-                                <p>{{$postcomment->created_at}}</p>
-                                <p>{{$postcomment->user_name}}</p>
-                            </div>                         
-                            @endforeach
-                        <div>
-                    </main>
-                    <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                        <p>Footer</p>
-                    </footer>
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card-text {
+            color: #4b5563;
+        }
+
+        .btn-primary {
+            background-color: #ff2d20;
+            border-color: #ff2d20;
+        }
+
+        .btn-primary:hover {
+            background-color: #e11d11;
+            border-color: #e11d11;
+        }
+    </style>
+</head>
+<body>
+    @include('header')
+<div class="container">
+    <h2 class="mb-4 row justify-content-center text-white">Posts</h2> 
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @foreach ($getPostsRecord as $post)
+            <div class="col">
+                <div class="card shadow">
+                    <img src="{{ asset('images/' . $post->image) }}" class="card-img-top" alt="Post Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $post->title }}</h5>
+                        <p class="card-text">{{ $post->description }}</p>
+                        <a href="{{ url('post', $post->id) }}" class="btn btn-danger">Read More</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </body>
+        @endforeach
+        <div class="mt-4 d-flex justify-content-center">
+    </div>
+</div>
+    <div >
+        <h2 class="mb-4 row justify-content-center text-white">Comments</h2> 
+        <div id="Comments" class="mt-4">
+        @foreach ($getCommentsRecord as $postcomment)
+            <div class="border p-3 mb-3 bg-white text-black">
+                <p class="mb-1">{{$postcomment->content}}</p>
+                <p class="mb-1 text-muted">{{$postcomment->created_at}}</p>
+                <p class="mb-0">{{$postcomment->user_name}}</p>
+                <!-- Check if the comment is a parent comment -->
+                @if ($postcomment->commentable_type == 'Comment' && $postcomment->commentable_id)
+                    <!-- Fetch and display child comments using the commentable_id -->
+                    @foreach ($getCommentsRecord as $childComment)
+                        @if ($childComment->commentable_type == 'Comment' && $childComment->commentable_id == $postcomment->id)
+                            <div class="border p-3 mt-3 bg-light">
+                                <p class="fw-bold mb-1 text-danger">Replies:</p>
+                                <div class="border p-3 mb-3 bg-light">
+                                    <p class="mb-1">{{$childComment->content}}</p>
+                                    <p class="mb-1 text-muted">{{$childComment->created_at}}</p>
+                                    <p class="mb-0">{{$childComment->user_name}}</p>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
+            </div>
+        @endforeach
+    </div>
+
+    </div>
+    @include('footer')
+</body>
 </html>

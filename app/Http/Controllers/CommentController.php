@@ -64,10 +64,8 @@ class CommentController
             'content' => 'required|string',
         ]);
     
-        // Find the parent comment
         $parentComment = Comment::findOrFail($parentCommentId);
     
-        // Create the reply
         $reply = new Comment();
         $reply->content = $data['content'];
         $reply->user_id = auth()->id();

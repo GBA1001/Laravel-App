@@ -23,6 +23,7 @@ class AuthCheck
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
             $request->session()->put('user', [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -63,5 +64,15 @@ class AuthCheck
     }
     public function register(){
         return view('register');
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }

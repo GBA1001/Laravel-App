@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Category;
+use App\Models\User;
 
 
 class PostController
@@ -19,10 +20,13 @@ class PostController
         $post = new Post();
         $post = Post::findOrFail($id);
         $post->increment('view_count');
-        $data['getPostRecord'] = $post->getPostRecord($id)->first(); 
+        $data = $post->getPostRecord($id)->first(); 
         $comments = new Comment();
-        $commentsData['getCommentsRecord'] = $comments->getCommentsRecord($id);
-        return view('post',$data,$commentsData);
+        $commentsData = $comments->getCommentsRecord($id);
+        $userData = User::findOrFail($post->user_id);
+        $cat = new Category();
+        $catData = $cat->where('post_id', $post->id)->get()->first();
+        return view('post',['getPostRecord'=> $data, 'getCommentsRecord' => $commentsData, 'getUserRecord' => $userData, 'getCategoryRecord'=> $catData]);
     }
     public function create(){
         return view('create');
